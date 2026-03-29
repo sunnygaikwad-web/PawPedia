@@ -381,7 +381,12 @@ app.delete('/api/health-logs/:id', (req, res) => {
 });
 
 // --- Start Server ---
-app.listen(PORT, () => {
-    console.log(`🚀 PawPedia Backend running at http://localhost:${PORT}`);
-    console.log(`Database (SQLite) connected successfully.`);
-});
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`🚀 PawPedia Backend running at http://localhost:${PORT}`);
+        console.log(`Database (SQLite) connected successfully.`);
+    });
+}
+
+// Export for Vercel serverless deployment
+module.exports = app;
