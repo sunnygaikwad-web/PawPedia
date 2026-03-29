@@ -14,7 +14,23 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '')));
 
 // Database setup
-const db = new sqlite3.Database('./pawpedia.sqlite', (err) => {
+const fs = require('fs');
+
+let dbPath = path.join(__dirname, 'pawpedia.sqlite');
+if (process.env.VERCEL || process.env.NODE_ENV === 'production') {
+    dbPath = '/tmp/pawpedia.sqlite';
+    const bundledDbPath = path.join(__dirname, 'pawpedia.sqlite');
+    // Copy the packaged SQLite file to the writable /tmp directory
+    try {
+        if (!fs.existsSync(dbPath) && fs.existsSync(bundledDbPath)) {
+            fs.copyFileSync(bundledDbPath, dbPath);
+        }
+    } catch (err) {
+        console.error('Could not copy sqlite to /tmp:', err);
+    }
+}
+
+const db = new sqlite3.Database(dbPath, (err) => {
     if (err) console.error('Database opening error: ', err);
 });
 
