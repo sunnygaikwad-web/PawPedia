@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Conservation — PawPedia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        .page-hero {
+            background: linear-gradient(135deg, #0A2E1A, #1A8C7A);
+            color: #fff;
+            padding: 8rem 4% 3rem
+        }
+
+        .page-hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: .5rem
+        }
+
+        .page-hero p {
+            color: rgba(255, 255, 255, .7);
+            max-width: 500px
+        }
+
+        .cons-layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 4%
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 3rem
+        }
+
+        .status-card {
+            border-radius: 14px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1.5px solid
+        }
+
+        .status-card h3 {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            margin-bottom: .2rem
+        }
+
+        .status-card p {
+            font-size: .82rem;
+            font-weight: 500;
+            letter-spacing: .05em;
+            text-transform: uppercase
+        }
+
+        .sc-cr {
+            background: #FDECEA;
+            border-color: #D94F3B;
+            color: #D94F3B
+        }
+
+        .sc-en {
+            background: #FDF0E8;
+            border-color: #E8621A;
+            color: #E8621A
+        }
+
+        .sc-vu {
+            background: #FFF8E1;
+            border-color: #F9A825;
+            color: #F9A825
+        }
+
+        .sc-nt {
+            background: #E8F5EE;
+            border-color: #2D7A4F;
+            color: #2D7A4F
+        }
+
+        .species-table {
+            background: #fff;
+            border-radius: 16px;
+            border: 1.5px solid var(--border);
+            overflow: hidden;
+            margin-bottom: 2rem
+        }
+
+        .species-table table {
+            width: 100%;
+            border-collapse: collapse
+        }
+
+        .species-table th {
+            background: var(--dark);
+            color: #fff;
+            padding: .9rem 1.2rem;
+            text-align: left;
+            font-size: .82rem;
+            font-weight: 500;
+            letter-spacing: .05em
+        }
+
+        .species-table td {
+            padding: .85rem 1.2rem;
+            border-bottom: 1px solid var(--border);
+            font-size: .88rem;
+            vertical-align: middle
+        }
+
+        .species-table tr:last-child td {
+            border-bottom: none
+        }
+
+        .species-table tr:hover td {
+            background: var(--bg)
+        }
+
+        .status-pill {
+            font-size: .72rem;
+            padding: .2rem .6rem;
+            border-radius: 999px;
+            font-weight: 500
+        }
+
+        .cr {
+            background: #FDECEA;
+            color: #D94F3B
+        }
+
+        .en {
+            background: #FDF0E8;
+            color: #E8621A
+        }
+
+        .vu {
+            background: #FFF8E1;
+            color: #F9A825
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.25rem;
+            margin-bottom: 2rem
+        }
+
+        .news-card {
+            background: #fff;
+            border-radius: 14px;
+            border: 1.5px solid var(--border);
+            padding: 1.5rem;
+            transition: box-shadow .2s;
+            cursor: pointer
+        }
+
+        .news-card:hover {
+            box-shadow: var(--shadow)
+        }
+
+        .news-tag {
+            font-size: .72rem;
+            background: var(--teal-lt);
+            color: var(--teal);
+            padding: .2rem .6rem;
+            border-radius: 999px;
+            display: inline-block;
+            margin-bottom: .6rem;
+            font-weight: 500
+        }
+
+        .news-card h4 {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            margin-bottom: .4rem;
+            line-height: 1.3
+        }
+
+        .news-card p {
+            font-size: .82rem;
+            color: var(--muted)
+        }
+
+        .news-date {
+            font-size: .75rem;
+            color: var(--muted);
+            margin-top: .6rem
+        }
+
+        .ngo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem
+        }
+
+        .ngo-card {
+            background: #fff;
+            border-radius: 14px;
+            padding: 1.5rem;
+            border: 1.5px solid var(--border);
+            text-align: center
+        }
+
+        .ngo-emoji {
+            font-size: 2.5rem;
+            margin-bottom: .5rem
+        }
+
+        .ngo-card h4 {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            margin-bottom: .3rem
+        }
+
+        .ngo-card p {
+            font-size: .82rem;
+            color: var(--muted);
+            margin-bottom: 1rem
+        }
+
+        .donate-btn {
+            background: var(--teal);
+            color: #fff;
+            border: none;
+            padding: .5rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: .85rem;
+            font-weight: 500;
+            width: 100%;
+            transition: background .2s
+        }
+
+        .donate-btn:hover {
+            background: #156558
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="nav-logo"><a href="index.html" style="text-decoration:none;color:inherit">🐾 PawPedia</a></div>
+        <ul class="nav-links">
+            <li><a href="encyclopedia.html">Encyclopedia</a></li>
+            <li><a href="pet-care.html">Pet Care</a></li>
+            <li><a href="learn.html">Learn</a></li>
+            <li><a href="adopt.html">Adopt</a></li>
+            <li><a href="community.html">Community</a></li>
+        </ul>
+        <button class="nav-cta">Get Started</button>
+        <button class="nav-hamburger" id="hamburger">&#9776;</button>
+    </nav>
+
+    <div class="page-hero">
+        <div class="section-label light">Conservation</div>
+        <h1>Protect Our Wildlife 🌿</h1>
+        <p>Track endangered species, read the latest conservation news, and support organisations making a difference.
+        </p>
+    </div>
+
+    <div class="cons-layout">
+
+        <!-- Status Summary -->
+        <div class="section-label">Global Status</div>
+        <h2 class="section-title">The State of Wildlife Today</h2>
+        <div class="status-grid">
+            <div class="status-card sc-cr">
+                <h3>8,404</h3>
+                <p>Critically Endangered</p>
+            </div>
+            <div class="status-card sc-en">
+                <h3>14,647</h3>
+                <p>Endangered</p>
+            </div>
+            <div class="status-card sc-vu">
+                <h3>16,118</h3>
+                <p>Vulnerable</p>
+            </div>
+            <div class="status-card sc-nt">
+                <h3>8,202</h3>
+                <p>Near Threatened</p>
+            </div>
+        </div>
+
+        <!-- Species Table -->
+        <div class="section-label">Spotlight Species</div>
+        <h2 class="section-title">Animals at Risk Right Now</h2>
+        <div class="species-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Animal</th>
+                        <th>Scientific Name</th>
+                        <th>Region</th>
+                        <th>Status</th>
+                        <th>Population</th>
+                        <th>Main Threat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>🐯 Amur Leopard</td>
+                        <td><em>Panthera pardus orientalis</em></td>
+                        <td>Russia / China</td>
+                        <td><span class="status-pill cr">Critically Endangered</span></td>
+                        <td>~100</td>
+                        <td>Habitat loss, poaching</td>
+                    </tr>
+                    <tr>
+                        <td>🦏 Javan Rhino</td>
+                        <td><em>Rhinoceros sondaicus</em></td>
+                        <td>Indonesia</td>
+                        <td><span class="status-pill cr">Critically Endangered</span></td>
+                        <td>~75</td>
+                        <td>Habitat loss, disease</td>
+                    </tr>
+                    <tr>
+                        <td>🦍 Mountain Gorilla</td>
+                        <td><em>Gorilla beringei beringei</em></td>
+                        <td>Central Africa</td>
+                        <td><span class="status-pill en">Endangered</span></td>
+                        <td>~1,000</td>
+                        <td>Habitat destruction</td>
+                    </tr>
+                    <tr>
+                        <td>🐘 Asian Elephant</td>
+                        <td><em>Elephas maximus</em></td>
+                        <td>South & SE Asia</td>
+                        <td><span class="status-pill en">Endangered</span></td>
+                        <td>~40,000</td>
+                        <td>Habitat loss, conflict</td>
+                    </tr>
+                    <tr>
+                        <td>🐼 Giant Panda</td>
+                        <td><em>Ailuropoda melanoleuca</em></td>
+                        <td>China</td>
+                        <td><span class="status-pill vu">Vulnerable</span></td>
+                        <td>~1,800</td>
+                        <td>Habitat fragmentation</td>
+                    </tr>
+                    <tr>
+                        <td>🦁 African Lion</td>
+                        <td><em>Panthera leo</em></td>
+                        <td>Sub-Saharan Africa</td>
+                        <td><span class="status-pill vu">Vulnerable</span></td>
+                        <td>~20,000</td>
+                        <td>Habitat loss, prey decline</td>
+                    </tr>
+                    <tr>
+                        <td>🦋 Monarch Butterfly</td>
+                        <td><em>Danaus plexippus</em></td>
+                        <td>N. America</td>
+                        <td><span class="status-pill en">Endangered</span></td>
+                        <td>Declining 80%</td>
+                        <td>Milkweed loss, pesticides</td>
+                    </tr>
+                    <tr>
+                        <td>🐋 Blue Whale</td>
+                        <td><em>Balaenoptera musculus</em></td>
+                        <td>All Oceans</td>
+                        <td><span class="status-pill en">Endangered</span></td>
+                        <td>~10,000</td>
+                        <td>Ship strikes, noise pollution</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- News -->
+        <div class="section-label">Latest News</div>
+        <h2 class="section-title">Conservation Headlines</h2>
+        <div class="news-grid">
+            <div class="news-card"><span class="news-tag">🐯 Big Cats</span>
+                <h4>Tiger Population in India Rises to Record 3,682</h4>
+                <p>India's tiger census shows a remarkable recovery thanks to Project Tiger, with numbers doubling in
+                    the last two decades.</p>
+                <div class="news-date">March 2025</div>
+            </div>
+            <div class="news-card"><span class="news-tag">🌊 Marine</span>
+                <h4>New Marine Protected Area Covers 1 Million sq km</h4>
+                <p>The Pacific nations signed a landmark agreement protecting crucial coral reef ecosystems from
+                    commercial fishing.</p>
+                <div class="news-date">February 2025</div>
+            </div>
+            <div class="news-card"><span class="news-tag">🦅 Birds</span>
+                <h4>Vulture Populations Recovering Across South Asia</h4>
+                <p>A ban on diclofenac has led to a slow but positive recovery of critically endangered vulture species
+                    in India and Nepal.</p>
+                <div class="news-date">January 2025</div>
+            </div>
+            <div class="news-card"><span class="news-tag">🐘 Elephants</span>
+                <h4>Wildlife Corridor Completed Linking Two Indian Reserves</h4>
+                <p>A new green corridor allows elephants to safely migrate between Bandipur and Nagarhole National
+                    Parks.</p>
+                <div class="news-date">December 2024</div>
+            </div>
+            <div class="news-card"><span class="news-tag">🌿 Habitat</span>
+                <h4>Amazon Deforestation Rate Drops 50% Under New Policy</h4>
+                <p>Brazil's new environmental enforcement policies have dramatically cut illegal deforestation in the
+                    Amazon biome.</p>
+                <div class="news-date">November 2024</div>
+            </div>
+            <div class="news-card"><span class="news-tag">🐢 Reptiles</span>
+                <h4>Leatherback Sea Turtle Nesting Sites Increase in Caribbean</h4>
+                <p>Conservation efforts and beach protection programmes have seen nesting numbers increase for the first
+                    time in 30 years.</p>
+                <div class="news-date">October 2024</div>
+            </div>
+        </div>
+
+        <!-- Support NGOs -->
+        <div class="section-label">Take Action</div>
+        <h2 class="section-title">Support Conservation Organisations</h2>
+        <div class="ngo-grid">
+            <div class="ngo-card">
+                <div class="ngo-emoji">🌍</div>
+                <h4>WWF — World Wildlife Fund</h4>
+                <p>Protecting nature and reducing the most pressing threats to biodiversity across the globe.</p><button
+                    class="donate-btn" onclick="handleDonate('WWF')">Support WWF 🌿</button>
+            </div>
+            <div class="ngo-card">
+                <div class="ngo-emoji">🐘</div>
+                <h4>Wildlife Trust of India</h4>
+                <p>India's leading NGO working on wildlife conservation and human-animal conflict mitigation.</p><button
+                    class="donate-btn" onclick="handleDonate('WTI')">Support WTI 🐘</button>
+            </div>
+            <div class="ngo-card">
+                <div class="ngo-emoji">🦁</div>
+                <h4>African Wildlife Foundation</h4>
+                <p>Protecting Africa's iconic wildlife and wild lands through conservation science and community
+                    programs.</p><button class="donate-btn" onclick="handleDonate('AWF')">Support AWF 🦁</button>
+            </div>
+            <div class="ngo-card">
+                <div class="ngo-emoji">🌊</div>
+                <h4>Ocean Conservancy</h4>
+                <p>Fighting for healthy oceans and the wildlife that depends on them through science-based solutions.
+                </p><button class="donate-btn" onclick="handleDonate('Ocean Conservancy')">Support OC
+                    🌊</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer" style="margin-top:3rem">
+        <div class="footer-bottom"><span>© 2025 PawPedia. Made with ❤️ for animals.</span><span><a href="index.html"
+                    style="color:rgba(255,255,255,.5)">← Back to Home</a></span></div>
+    </footer>
+    <script>
+        function handleDonate(org) {
+            if (window.showToast) {
+                window.showToast('Redirecting securely to ' + org + ' donation page...', 'info');
+            } else {
+                alert('Redirecting securely to ' + org + ' donation page...');
+            }
+        }
+    </script>
+    <script src="main.js"></script>
+</body>
+
+</html>

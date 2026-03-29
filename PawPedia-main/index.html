@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PawPedia — Explore Every Animal on Earth</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <!-- NAV -->
+    <nav class="nav">
+        <div class="nav-logo">🐾 PawPedia</div>
+        <ul class="nav-links">
+            <li><a href="encyclopedia.html">Encyclopedia</a></li>
+            <li><a href="pet-care.html">Pet Care</a></li>
+            <li><a href="learn.html">Learn</a></li>
+            <li><a href="adopt.html">Adopt</a></li>
+            <li><a href="community.html">Community</a></li>
+        </ul>
+        <button class="nav-cta" onclick="openAuthModal()">Login / Signup</button>
+        <button class="nav-hamburger" id="hamburger">&#9776;</button>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero" id="heroSection">
+        <canvas id="heroParticles"
+            style="position:absolute; top:0; left:0; width:100%; height:100%; z-index:0; pointer-events:none; opacity: 0.8;"></canvas>
+        <div class="hero-bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+        </div>
+        <div class="hero-content">
+            <span class="hero-badge">🌍 1,200+ Species &amp; Premium Guides</span>
+            <h1 class="hero-title">Every Animal.<br /><em>One Platform.</em></h1>
+            <p class="hero-sub">From the tiniest beetle to the blue whale — explore species, track your pets with
+                interactive dashboards, and discover the wild world around you.</p>
+            <div class="hero-actions">
+                <a href="encyclopedia.html" class="btn btn-primary">Explore Encyclopedia</a>
+                <a href="learn.html" class="btn btn-ghost">Start Learning →</a>
+            </div>
+            <div class="hero-search glass-panel">
+                <input type="text" placeholder="Search perfectly curated species..." class="search-input"
+                    id="heroSearch" />
+                <button class="search-btn" onclick="doSearch()">Search</button>
+            </div>
+        </div>
+        <div class="hero-image-container">
+            <img src="images/hero.png" alt="PawPedia Hero animals" class="hero-main-img" />
+            <div class="hero-glow"></div>
+        </div>
+    </section>
+
+    <!-- STATS BAR -->
+    <section class="stats-bar">
+        <div class="stat"><span class="stat-num">1,200+</span><span class="stat-label">Animal Species</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">85K+</span><span class="stat-label">Students Learning</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">340+</span><span class="stat-label">Care Guides</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">50K+</span><span class="stat-label">Pet Owners</span></div>
+    </section>
+
+    <!-- FEATURES GRID -->
+    <section class="features reveal" id="features">
+        <div class="section-label">What You Can Do</div>
+        <h2 class="section-title">Everything animals,<br />in one app.</h2>
+
+        <div class="features-grid">
+
+            <div class="feature-card card-wide accent-green" onclick="location.href='encyclopedia.html'">
+                <div class="feature-icon">📖</div>
+                <div class="feature-text">
+                    <h3>Species Encyclopedia</h3>
+                    <p>Dive into 1,200+ animals with scientific names, habitats, diets, lifespan, behaviour, and
+                        stunning photos. Filter by continent, class, or conservation status.</p>
+                </div>
+                <div class="feature-arrow">→</div>
+                <div class="feature-bg-emoji">🦁🐬🦋</div>
+            </div>
+
+            <div class="feature-card accent-blue" onclick="location.href='learn.html'">
+                <div class="feature-icon">🎓</div>
+                <h3>Student Hub</h3>
+                <p>Quizzes, flashcards, and grade-appropriate content. Perfect for school projects and curious minds.
+                </p>
+                <div class="feature-arrow">→</div>
+            </div>
+
+            <div class="feature-card accent-orange" onclick="location.href='pet-care.html'">
+                <div class="feature-icon">🐾</div>
+                <h3>Pet Care Guides</h3>
+                <p>Breed-specific feeding, grooming &amp; vet schedules. Set reminders and track your pet's health.</p>
+                <div class="feature-arrow">→</div>
+            </div>
+
+            <div class="feature-card accent-purple" onclick="location.href='chatbot.html'">
+                <div class="feature-icon">🤖</div>
+                <h3>AI Animal Expert</h3>
+                <p>Ask anything. Identify animals from photos. Get instant answers from our AI trained on animal
+                    science.</p>
+                <div class="feature-arrow">→</div>
+            </div>
+
+            <div class="feature-card accent-coral" onclick="location.href='adopt.html'">
+                <div class="feature-icon">🏠</div>
+                <h3>Adoption &amp; Rescue</h3>
+                <p>Find local shelters, take the pet-match quiz, and help reunite lost animals with their families.</p>
+                <div class="feature-arrow">→</div>
+            </div>
+
+            <div class="feature-card card-wide accent-teal" onclick="location.href='conservation.html'">
+                <div class="feature-icon">🌿</div>
+                <div class="feature-text">
+                    <h3>Conservation Tracker</h3>
+                    <p>Track endangered species in real time. Read wildlife news, support NGOs, and be part of the
+                        solution. Because every species matters.</p>
+                </div>
+                <div class="feature-arrow">→</div>
+                <div class="feature-bg-emoji">🌍🐼🦏</div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ANIMAL SPOTLIGHT -->
+    <section class="spotlight reveal reveal-delay-1">
+        <div class="section-label">Animal of the Day</div>
+        <h2 class="section-title">Meet Today's Featured Animal</h2>
+        <div class="spotlight-card" id="spotlightCard">
+            <div class="spotlight-emoji">🦁</div>
+            <div class="spotlight-info">
+                <span class="spotlight-tag">Mammal · Africa</span>
+                <h3 class="spotlight-name">African Lion</h3>
+                <p class="spotlight-sci">Panthera leo</p>
+                <p class="spotlight-desc">The African lion is the second-largest big cat in the world. Known as the
+                    "King of the Jungle," lions are actually savannah animals — social, powerful, and surprisingly
+                    affectionate within their prides.</p>
+                <div class="spotlight-facts">
+                    <div class="fact-pill">🏃 80 km/h top speed</div>
+                    <div class="fact-pill">⚖️ Up to 250 kg</div>
+                    <div class="fact-pill">📍 Sub-Saharan Africa</div>
+                    <div class="fact-pill">⚠️ Vulnerable</div>
+                </div>
+                <a href="encyclopedia.html" class="btn btn-primary" style="margin-top:1.5rem;display:inline-block;">Read
+                    Full Profile →</a>
+            </div>
+        </div>
+        <div class="spotlight-nav">
+            <button onclick="changeSpotlight(-1)">← Prev</button>
+            <span id="spotlightDot">1 / 5</span>
+            <button onclick="changeSpotlight(1)">Next →</button>
+        </div>
+    </section>
+
+    <!-- STUDENT SECTION -->
+    <section class="student-section reveal">
+        <div class="student-left">
+            <div class="section-label light">For Students</div>
+            <h2>Learn animals<br />the fun way.</h2>
+            <p>Whether you're writing a school report or just curious — PawPedia has grade-specific content, interactive
+                quizzes, and downloadable fact sheets.</p>
+            <ul class="student-features">
+                <li>✅ Quizzes by animal class &amp; habitat</li>
+                <li>✅ Printable flashcards</li>
+                <li>✅ Teacher-verified content</li>
+                <li>✅ Fun daily animal facts</li>
+                <li>✅ Science project idea generator</li>
+            </ul>
+            <a href="learn.html" class="btn btn-primary">Start Learning Free</a>
+        </div>
+        <div class="student-right">
+            <div class="quiz-card">
+                <div class="quiz-header">🎯 Quick Quiz</div>
+                <p class="quiz-question" id="quizQ">Which is the largest land animal on Earth?</p>
+                <div class="quiz-options" id="quizOpts">
+                    <button class="quiz-opt" onclick="answerQuiz(this, false)">🦏 White Rhinoceros</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this, true)">🐘 African Elephant</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this, false)">🦛 Hippopotamus</button>
+                    <button class="quiz-opt" onclick="answerQuiz(this, false)">🐪 Dromedary Camel</button>
+                </div>
+                <div class="quiz-result" id="quizResult"></div>
+                <button class="quiz-next" id="quizNext" onclick="nextQuiz()" style="display:none">Next Question
+                    →</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- PET CARE PREVIEW -->
+    <section class="petcare-section reveal">
+        <div class="section-label">Pet Care</div>
+        <h2 class="section-title">Your pet deserves the best.</h2>
+        <div class="petcare-tabs">
+            <button class="tab active" onclick="switchTab(this,'dog')">🐕 Dogs</button>
+            <button class="tab" onclick="switchTab(this,'cat')">🐈 Cats</button>
+            <button class="tab" onclick="switchTab(this,'bird')">🦜 Birds</button>
+            <button class="tab" onclick="switchTab(this,'fish')">🐠 Fish</button>
+            <button class="tab" onclick="switchTab(this,'rabbit')">🐰 Rabbits</button>
+        </div>
+        <div class="petcare-content" id="petcareContent">
+            <div class="care-cards">
+                <div class="care-card">
+                    <div class="care-icon">🍖</div>
+                    <h4>Feeding</h4>
+                    <p>Adult dogs need 2 meals/day. Puppies 3–4. Always fresh water available.</p>
+                </div>
+                <div class="care-card">
+                    <div class="care-icon">🚿</div>
+                    <h4>Grooming</h4>
+                    <p>Brush coat 2–3x weekly. Bathe every 4–6 weeks. Trim nails monthly.</p>
+                </div>
+                <div class="care-card">
+                    <div class="care-icon">🏃</div>
+                    <h4>Exercise</h4>
+                    <p>At least 30–60 min of active play or walks per day for a healthy dog.</p>
+                </div>
+                <div class="care-card">
+                    <div class="care-icon">💉</div>
+                    <h4>Health</h4>
+                    <p>Annual vet checkup. Core vaccines: Rabies, Distemper, Parvo, Hepatitis.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- COMMUNITY -->
+    <section class="community-section reveal">
+        <div class="section-label">Community</div>
+        <h2 class="section-title">Join 50,000+ animal lovers.</h2>
+        <div class="community-grid">
+            <div class="community-post">
+                <div class="post-avatar">🧑</div>
+                <div class="post-body">
+                    <span class="post-name">Riya S. · Mumbai</span>
+                    <p>"PawPedia helped me identify a rare gecko I found in my garden. The encyclopedia is incredible!"
+                    </p>
+                    <div class="post-tags"><span>#Reptiles</span><span>#Wildlife</span></div>
+                </div>
+            </div>
+            <div class="community-post highlight">
+                <div class="post-avatar">👩</div>
+                <div class="post-body">
+                    <span class="post-name">Priya M. · Pune</span>
+                    <p>"My daughter uses the student quiz section daily. Her biology grades improved so much since we
+                        found this app!"</p>
+                    <div class="post-tags"><span>#Students</span><span>#Education</span></div>
+                </div>
+            </div>
+            <div class="community-post">
+                <div class="post-avatar">👦</div>
+                <div class="post-body">
+                    <span class="post-name">Arjun K. · Delhi</span>
+                    <p>"Found my lost cat using the lost & found board within 2 days. Forever grateful to this
+                        community. 🐱"</p>
+                    <div class="post-tags"><span>#Adoption</span><span>#Cats</span></div>
+                </div>
+            </div>
+        </div>
+        <a href="community.html" class="btn btn-outline" style="margin-top:2rem;display:inline-block;">Join the
+            Community →</a>
+    </section>
+
+    <!-- CTA BANNER -->
+    <section class="cta-banner reveal">
+        <div class="cta-shapes">
+            <div class="cta-shape c1"></div>
+            <div class="cta-shape c2"></div>
+        </div>
+        <h2>Ready to explore the animal kingdom?</h2>
+        <p>Free forever for students. Powerful tools for pet owners and wildlife enthusiasts.</p>
+        <div class="cta-actions">
+            <a href="encyclopedia.html" class="btn btn-white">Start Exploring</a>
+            <a href="learn.html" class="btn btn-ghost-white">For Schools →</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <div class="footer-logo">🐾 PawPedia</div>
+                <p>The world's most complete animal encyclopedia and pet care platform.</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h5>Explore</h5>
+                    <a href="encyclopedia.html">Encyclopedia</a>
+                    <a href="conservation.html">Conservation</a>
+                    <a href="chatbot.html">AI Expert</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Pet Owners</h5>
+                    <a href="pet-care.html">Care Guides</a>
+                    <a href="adopt.html">Adoption</a>
+                    <a href="community.html">Community</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Students</h5>
+                    <a href="learn.html">Learning Hub</a>
+                    <a href="learn.html#quiz">Quizzes</a>
+                    <a href="learn.html#facts">Fun Facts</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>© 2025 PawPedia. Made with ❤️ for animals.</span>
+            <span>Privacy · Terms · Contact</span>
+        </div>
+    </footer>
+    <script>
+        // Particle Background Generator
+        const canvas = document.getElementById('heroParticles');
+        if (canvas) {
+            const ctx = canvas.getContext('2d');
+            let width, height;
+            let particles = [];
+
+            function resize() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = document.getElementById('heroSection').offsetHeight;
+            }
+
+            window.addEventListener('resize', resize);
+            resize();
+
+            class Particle {
+                constructor() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.size = Math.random() * 2 + 0.5;
+                    this.speedX = Math.random() * 1 - 0.5;
+                    this.speedY = Math.random() * 1 - 0.5;
+                    this.opacity = Math.random() * 0.5 + 0.2;
+                }
+                update() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    if (this.x < 0) this.x = width;
+                    // if (this.x > width) this.x = 0;
+                    if (this.y < 0) this.y = height;
+                    if (this.y > height) this.y = 0;
+                }
+                draw() {
+                    ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            for (let i = 0; i < 60; i++) {
+                particles.push(new Particle());
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                particles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+    </script>
+
+    <!-- Global Auth Modal -->
+    <div class="g-modal" id="authModal">
+        <div class="g-modal-content auth-modal-content">
+            <button class="g-modal-close" onclick="closeModal('authModal')">&times;</button>
+            <div class="auth-header">
+                <h2>Welcome to PawPedia 🐾</h2>
+                <p>Sign in to save your pets, track habits, and join the community.</p>
+            </div>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchAuthTab('login')">Login</button>
+                <button class="auth-tab" onclick="switchAuthTab('signup')">Sign Up</button>
+            </div>
+
+            <form id="authForm" onsubmit="handleAuthSubmit(event)">
+                <div id="authNameField" style="display:none; margin-bottom: 1rem;">
+                    <label class="auth-label">Full Name</label>
+                    <input type="text" id="authName" class="auth-input" placeholder="Enter your full name">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <label class="auth-label">Email Address</label>
+                    <input type="email" id="authEmail" class="auth-input" placeholder="Enter your email" required>
+                </div>
+                <div style="margin-bottom: 1.5rem;">
+                    <label class="auth-label">Password</label>
+                    <input type="password" id="authPassword" class="auth-input" placeholder="Enter your password"
+                        required>
+                </div>
+
+                <button type="submit" class="btn btn-primary auth-submit" id="authSubmitBtn">Login</button>
+
+                <div class="auth-divider"><span>OR</span></div>
+
+                <button type="button" class="btn btn-outline google-auth-btn" onclick="simulateGoogleLogin()">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/53/Google_%22G%22_Logo.svg" alt="Google"
+                        width="18" height="18">
+                    Continue with Google
+                </button>
+            </form>
+        </div>
+    </div>
+    <script src="main.js"></script>
+    <script src="app.js"></script>
+</body>
+
+</html>

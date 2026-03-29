@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Encyclopedia — PawPedia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        .page-hero {
+            background: linear-gradient(135deg, #1B3D2A, #2D7A4F);
+            color: #fff;
+            padding: 8rem 4% 3rem;
+        }
+
+        .page-hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: .5rem;
+        }
+
+        .page-hero p {
+            color: rgba(255, 255, 255, .7);
+            max-width: 500px;
+        }
+
+        .enc-controls {
+            padding: 2rem 4%;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+            background: var(--bg-card);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 60px;
+            z-index: 10;
+        }
+
+        .enc-search {
+            flex: 1;
+            min-width: 200px;
+            padding: .6rem 1rem;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: .9rem;
+            outline: none;
+        }
+
+        .enc-search:focus {
+            border-color: var(--green);
+        }
+
+        .filter-btn {
+            background: var(--bg);
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            padding: .5rem .9rem;
+            font-family: var(--font-body);
+            font-size: .82rem;
+            cursor: pointer;
+            transition: all .2s;
+            color: var(--mid);
+        }
+
+        .filter-btn.active,
+        .filter-btn:hover {
+            background: var(--green);
+            color: #fff;
+            border-color: var(--green);
+        }
+
+        .enc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem;
+            padding: 2rem 4%;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .animal-card {
+            background: var(--bg-card);
+            border-radius: 14px;
+            border: 1.5px solid var(--border);
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all .25s;
+        }
+
+        .animal-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+            border-color: rgba(43,158,118,0.5);
+            background: linear-gradient(145deg, var(--bg-card), rgba(43,158,118,0.03));
+        }
+
+        .animal-card .emoji {
+            font-size: 3.5rem;
+            margin-bottom: .5rem;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+        }
+        
+        .animal-card:hover .emoji {
+            transform: scale(1.15) rotate(-5deg);
+        }
+
+        .animal-card h3 {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            margin-bottom: .2rem;
+        }
+
+        .animal-card .sci {
+            font-style: italic;
+            font-size: .78rem;
+            color: var(--muted);
+        }
+
+        .animal-card .tags {
+            display: flex;
+            gap: .3rem;
+            justify-content: center;
+            margin-top: .6rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: .72rem;
+            padding: .15rem .5rem;
+            border-radius: 999px;
+            background: var(--green-lt);
+            color: var(--green);
+        }
+
+        .tag.danger {
+            background: var(--coral-lt);
+            color: var(--coral);
+        }
+
+        .tag.warn {
+            background: var(--orange-lt);
+            color: var(--orange);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="nav-logo"><a href="index.html" style="text-decoration:none;color:inherit">🐾 PawPedia</a></div>
+        <ul class="nav-links">
+            <li><a href="encyclopedia.html" style="color:var(--green)">Encyclopedia</a></li>
+            <li><a href="pet-care.html">Pet Care</a></li>
+            <li><a href="learn.html">Learn</a></li>
+            <li><a href="adopt.html">Adopt</a></li>
+            <li><a href="community.html">Community</a></li>
+        </ul>
+        <button class="nav-cta">Get Started</button>
+        <button class="nav-hamburger" id="hamburger">&#9776;</button>
+    </nav>
+
+    <div class="page-hero">
+        <div class="section-label light">Species Database</div>
+        <h1>Animal Encyclopedia</h1>
+        <p>Explore 1,200+ species — from deep-sea creatures to backyard birds. Every animal, documented.</p>
+    </div>
+
+    <div class="enc-controls">
+        <input class="enc-search" type="text" placeholder="Search animals..." id="encSearch"
+            oninput="filterAnimals()" />
+        <button class="filter-btn active" onclick="setFilter(this,'all')">All</button>
+        <button class="filter-btn" onclick="setFilter(this,'mammal')">🐾 Mammals</button>
+        <button class="filter-btn" onclick="setFilter(this,'bird')">🐦 Birds</button>
+        <button class="filter-btn" onclick="setFilter(this,'reptile')">🦎 Reptiles</button>
+        <button class="filter-btn" onclick="setFilter(this,'insect')">🦋 Insects</button>
+        <button class="filter-btn" onclick="setFilter(this,'fish')">🐠 Fish</button>
+        <button class="filter-btn" onclick="setFilter(this,'endangered')">⚠️ Endangered</button>
+    </div>
+
+    <div class="enc-grid" id="encGrid"></div>
+
+    <!-- ANIMAL MODAL -->
+    <div class="g-modal" id="animalModal">
+        <div class="g-modal-content" style="max-width: 600px; text-align: left;">
+            <button class="g-modal-close" onclick="closeModal('animalModal')">&times;</button>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <script src="encyclopedia.js"></script>
+</body>
+
+</html>

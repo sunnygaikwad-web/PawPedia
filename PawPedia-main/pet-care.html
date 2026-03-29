@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pet Care — PawPedia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        .page-hero {
+            background: linear-gradient(135deg, #7A2D0A, #E8621A);
+            color: #fff;
+            padding: 8rem 4% 3rem
+        }
+
+        .page-hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: .5rem
+        }
+
+        .page-hero p {
+            color: rgba(255, 255, 255, .7);
+            max-width: 500px
+        }
+
+        .pet-selector {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            padding: 2.5rem 4% 1rem;
+            flex-wrap: wrap
+        }
+
+        .pet-btn {
+            background: #fff;
+            border: 2px solid var(--border);
+            border-radius: 16px;
+            padding: 1.2rem 1.8rem;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: .3rem;
+            transition: all .25s;
+            color: var(--mid)
+        }
+
+        .pet-btn .pet-img {            width: 50px;            height: 50px;            border-radius: 50%;            object-fit: cover;            border: 2px solid transparent;            transition: border-color .25s;        }
+        .pet-btn:hover,
+        .pet-btn.active {
+            border-color: var(--orange);
+            background: var(--orange-lt);
+            color: var(--orange);
+        }
+        .pet-btn.active .pet-img {
+            border-color: var(--orange);
+        }
+
+        .care-layout {
+            max-width: 1100px;
+            margin: 2rem auto;
+            padding: 0 4%
+        }
+
+        .care-section {
+            background: #fff;
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1.5px solid var(--border);
+            margin-bottom: 1.5rem
+        }
+
+        .care-section-header {
+            display: flex;
+            align-items: center;
+            gap: .8rem;
+            margin-bottom: 1.2rem
+        }
+
+        .care-section-icon {
+            font-size: 1.8rem
+        }
+
+        .care-section-header h3 {
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            color: var(--dark)
+        }
+
+        .care-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1rem
+        }
+
+        .care-item {
+            background: var(--bg);
+            border-radius: 10px;
+            padding: 1rem;
+            border: 1px solid var(--border)
+        }
+
+        .care-item strong {
+            display: block;
+            font-size: .88rem;
+            color: var(--dark);
+            margin-bottom: .25rem
+        }
+
+        .care-item span {
+            font-size: .82rem;
+            color: var(--muted)
+        }
+
+        .health-checklist {
+            display: flex;
+            flex-direction: column;
+            gap: .6rem
+        }
+
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: .8rem;
+            padding: .7rem 1rem;
+            background: var(--bg);
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            transition: background .2s
+        }
+
+        .check-item:hover {
+            background: var(--green-lt)
+        }
+
+        .check-item input[type=checkbox] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--green);
+            cursor: pointer;
+            flex-shrink: 0
+        }
+
+        .check-item label {
+            font-size: .9rem;
+            color: var(--dark);
+            cursor: pointer
+        }
+
+        .reminder-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: .8rem;
+            align-items: end
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: .3rem
+        }
+
+        .form-group label {
+            font-size: .8rem;
+            color: var(--muted);
+            font-weight: 500
+        }
+
+        .form-group input,
+        .form-group select {
+            padding: .6rem .9rem;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            font-family: var(--font-body);
+            font-size: .88rem;
+            outline: none;
+            background: #fff;
+            transition: border-color .2s
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: var(--orange)
+        }
+
+        .add-btn {
+            background: var(--orange);
+            color: #fff;
+            border: none;
+            padding: .65rem 1.2rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-weight: 500;
+            white-space: nowrap;
+            transition: background .2s
+        }
+
+        .add-btn:hover {
+            background: #c4511a
+        }
+
+        .reminder-list {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: .5rem
+        }
+
+        .reminder-item {
+            display: flex;
+            align-items: center;
+            gap: .8rem;
+            background: var(--orange-lt);
+            border-radius: 8px;
+            padding: .7rem 1rem;
+            border: 1px solid rgba(232, 98, 26, .2)
+        }
+
+        .reminder-item span {
+            flex: 1;
+            font-size: .88rem;
+            color: var(--dark)
+        }
+
+        .del-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--coral);
+            font-size: 1rem
+        }
+
+        @media(max-width:600px) {
+            .reminder-form {
+                grid-template-columns: 1fr
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="nav-logo"><a href="index.html" style="text-decoration:none;color:inherit">🐾 PawPedia</a></div>
+        <ul class="nav-links">
+            <li><a href="encyclopedia.html">Encyclopedia</a></li>
+            <li><a href="pet-care.html" style="color:var(--orange)">Pet Care</a></li>
+            <li><a href="learn.html">Learn</a></li>
+            <li><a href="adopt.html">Adopt</a></li>
+            <li><a href="community.html">Community</a></li>
+        </ul>
+        <button class="nav-cta" onclick="openAuthModal()">Login / Signup</button>
+        <button class="nav-hamburger" id="hamburger">&#9776;</button>
+    </nav>
+
+    <div class="page-hero">
+        <div class="section-label light">Pet Care</div>
+        <h1>Care Guides & Health Tracker</h1>
+        <p>Complete care guides for every pet — feeding, grooming, health, and vet reminders all in one place.</p>
+    </div>
+
+    <!-- Pet Selector -->
+    <div class="pet-selector">
+        <button class="pet-btn active" onclick="selectPet(this,'dog')"><img class="pet-img" src="images/dog_avatar.png" alt="Dog">Dog</button>
+        <button class="pet-btn" onclick="selectPet(this,'cat')"><img class="pet-img" src="images/cat_avatar.png" alt="Cat">Cat</button>
+        <button class="pet-btn" onclick="selectPet(this,'bird')"><img class="pet-img" src="images/bird_avatar.png" alt="Bird">Bird</button>
+        <button class="pet-btn" onclick="selectPet(this,'fish')"><span class="pet-emoji">🐠</span>Fish</button>
+        <button class="pet-btn" onclick="selectPet(this,'rabbit')"><span class="pet-emoji">🐰</span>Rabbit</button>
+        <button class="pet-btn" onclick="selectPet(this,'hamster')"><span class="pet-emoji">🐹</span>Hamster</button>
+    </div>
+
+    <div class="care-layout" id="careContent"></div>
+
+    <script>
+        const petData = {
+            dog: {
+                emoji: '🐕', name: 'Dog',
+                feeding: [{ t: 'Puppies (0–6 mo)', d: '3–4 meals/day, puppy formula food' }, { t: 'Adults (1–7 yrs)', d: '2 meals/day, balanced dry+wet food' }, { t: 'Seniors (8+ yrs)', d: '2 smaller meals, senior formula low in fat' }, { t: 'Water', d: 'Always fresh water available — change twice daily' }],
+                grooming: [{ t: 'Brushing', d: '2–3x per week (daily for long-haired breeds)' }, { t: 'Bathing', d: 'Every 4–6 weeks with dog shampoo' }, { t: 'Nail Trim', d: 'Every 3–4 weeks — click sound means too long' }, { t: 'Ear Check', d: 'Weekly — look for redness or bad odor' }, { t: 'Teeth', d: 'Brush 2–3x/week with dog toothpaste' }],
+                vaccines: ['Rabies (every 1–3 years)', 'Distemper (annually)', 'Parvovirus (annually)', 'Hepatitis (annually)', 'Leptospirosis (annually)', 'Bordetella (annually)'],
+                reminders: []
+            },
+            cat: {
+                emoji: '🐈', name: 'Cat',
+                feeding: [{ t: 'Kittens (0–6 mo)', d: '3–4 small meals/day, kitten wet food' }, { t: 'Adults (1–10 yrs)', d: '2 meals/day, mix of wet and dry food' }, { t: 'Seniors (11+ yrs)', d: '2 meals, kidney-friendly senior food' }, { t: 'Water', d: 'Cats need hydration — wet food helps a lot' }],
+                grooming: [{ t: 'Brushing', d: 'Short-hair: weekly. Long-hair: daily' }, { t: 'Bathing', d: 'Rarely needed — cats self-groom' }, { t: 'Nail Trim', d: 'Every 2 weeks' }, { t: 'Ear Check', d: 'Monthly — look for dark wax or smell' }, { t: 'Dental', d: 'Weekly brushing or dental treats' }],
+                vaccines: ['Rabies (every 1–3 years)', 'FVRCP — Feline distemper (annually)', 'FeLV — Feline leukaemia (if outdoor cat)', 'Bordetella (if boarding)'],
+                reminders: []
+            },
+            bird: {
+                emoji: '🦜', name: 'Bird',
+                feeding: [{ t: 'Seeds & Pellets', d: 'Pellets should be 60–70% of diet' }, { t: 'Fresh Fruits', d: 'Apple, mango, banana — remove seeds' }, { t: 'Vegetables', d: 'Broccoli, carrot, leafy greens daily' }, { t: 'Avoid', d: 'Avocado, chocolate, caffeine, onion — toxic!' }],
+                grooming: [{ t: 'Bathing', d: 'Shallow water dish 2–3x/week or mist spray' }, { t: 'Nail Trim', d: 'As needed — use bird-specific clippers' }, { t: 'Beak', d: 'Provide cuttlebone — helps natural beak wear' }, { t: 'Wing Clipping', d: 'Optional — consult an avian vet' }],
+                vaccines: ['Annual avian vet checkup', 'Polyomavirus vaccine (for some species)', 'PBFD testing (for parrots)'],
+                reminders: []
+            },
+            fish: {
+                emoji: '🐠', name: 'Fish',
+                feeding: [{ t: 'Tropical Fish', d: '2x daily — only what they eat in 2 minutes' }, { t: 'Goldfish', d: '2–3x daily, small pinches' }, { t: 'Carnivores', d: 'Live/frozen food: brine shrimp, bloodworms' }, { t: 'Fasting Day', d: 'Skip feeding once a week — aids digestion' }],
+                grooming: [{ t: 'Water Change', d: '25% weekly water change' }, { t: 'Filter Clean', d: 'Monthly — rinse media in tank water only' }, { t: 'pH Testing', d: 'Weekly — most fish need 6.5–7.5 pH' }, { t: 'Temperature', d: 'Tropical: 24–28°C, Coldwater: 18–22°C' }],
+                vaccines: ['No vaccines needed for fish', 'Quarantine new fish for 2 weeks', 'Watch for Ich (white spots) and fin rot', 'Consult aquarium specialist if fish look sick'],
+                reminders: []
+            },
+            rabbit: {
+                emoji: '🐰', name: 'Rabbit',
+                feeding: [{ t: 'Hay', d: 'Unlimited timothy hay — most important food' }, { t: 'Leafy Greens', d: '1–2 cups/day: romaine, kale, cilantro' }, { t: 'Pellets', d: '¼ cup per 2kg of body weight/day' }, { t: 'Avoid', d: 'No sugary fruits, iceberg lettuce, or chocolate' }],
+                grooming: [{ t: 'Brushing', d: 'Short-hair: weekly. Long-hair (Angora): daily' }, { t: 'Nail Trim', d: 'Every 4–6 weeks' }, { t: 'Ear Check', d: 'Weekly — look for mites or dark debris' }, { t: 'Never bathe', d: 'Rabbits self-groom — wet fur causes hypothermia' }],
+                vaccines: ['RHDV2 — Rabbit Haemorrhagic Disease (annually)', 'Myxomatosis (annually in high-risk areas)', 'Annual vet checkup for teeth and weight'],
+                reminders: []
+            },
+            hamster: {
+                emoji: '🐹', name: 'Hamster',
+                feeding: [{ t: 'Pellets', d: '1 tbsp hamster pellets daily' }, { t: 'Veggies', d: 'Small pieces of carrot, broccoli, cucumber' }, { t: 'Treats', d: 'Sunflower seeds sparingly — high in fat' }, { t: 'Water', d: 'Fresh water in a sipper bottle daily' }],
+                grooming: [{ t: 'Cage Clean', d: 'Spot clean daily, full clean weekly' }, { t: 'Sand Bath', d: 'Provide chinchilla sand for self-grooming' }, { t: 'Nails', d: 'Trim if clicking on surfaces — careful with tiny nails' }, { t: 'No Water Bath', d: 'Hamsters are prone to colds — never wet them' }],
+                vaccines: ['No vaccines required', 'Annual vet checkup recommended', 'Watch for wet tail (diarrhoea) — vet immediately', 'Check teeth monthly — overgrown teeth need vet'],
+                reminders: []
+            }
+        };
+
+        let currentPet = 'dog';
+        let reminders = { dog: [], cat: [], bird: [], fish: [], rabbit: [], hamster: [] };
+        let habits = {};
+
+        async function fetchReminders(pet) {
+            try {
+                const res = await fetch(`http://localhost:3000/api/reminders/${pet}`);
+                if (res.ok) {
+                    reminders[pet] = await res.json();
+                    if(document.getElementById('remList')) {
+                        document.getElementById('remList').innerHTML = renderReminders();
+                    }
+                }
+            } catch (err) { console.error('Error fetching reminders', err); }
+        }
+
+        async function fetchHabits(pet) {
+            try {
+                const res = await fetch(`http://localhost:3000/api/habits/${pet}`);
+                if (res.ok) {
+                    const data = await res.json();
+                    habits[pet] = {};
+                    data.forEach(h => {
+                        habits[pet][h.habit] = { streak: h.streak, last: h.last_logged };
+                    });
+                    renderHabitUI();
+                }
+            } catch (err) { console.error('Error fetching habits', err); }
+        }
+
+        function selectPet(el, pet) {
+            currentPet = pet;
+            document.querySelectorAll('.pet-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+            renderCare();
+            fetchReminders(pet);
+            fetchHabits(pet);
+        }
+
+        function renderCare() {
+            const d = petData[currentPet];
+            
+            // Build the new interactive feeding check UI
+            document.getElementById('careContent').innerHTML = `
+        <div class="care-section" style="background: linear-gradient(135deg, var(--orange-lt), #fff); border: 2px solid var(--orange); display: flex; align-items: center; justify-content: space-between;">
+            <div>
+                <h2 style="font-family: var(--font-display); font-size: 1.8rem; margin-bottom: 0.3rem; color: var(--dark);">My ${d.name} Profile</h2>
+                <p style="color: var(--muted); font-size: 0.95rem;">Track daily tasks and ensure your companion is healthy.</p>
+            </div>
+            <div style="font-size: 3rem; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));">${d.emoji}</div>
+        </div>
+        
+        <div class="care-section" id="dailyAlertBox" style="display:none; background: var(--coral-lt); border-left: 4px solid var(--coral); padding: 1.2rem;">
+            <strong style="color: var(--coral); display: flex; align-items: center; gap: 0.5rem;"><span style="font-size: 1.2rem;">⚠️</span> Action Required</strong>
+            <p id="dailyAlertMsg" style="color: var(--dark); font-size: 0.95rem; margin-top: 0.3rem;">You haven't logged feeding for your ${d.name} today.</p>
+        </div>
+
+        <div class="care-section">
+          <div class="care-section-header"><span class="care-section-icon">📈</span><h3>Daily Habit & Feeding Tracker</h3></div>
+          <p style="font-size:0.85rem; color:var(--muted); margin-bottom:1rem;">Click to log your daily tasks. Build a streak and ensure your pet is fed and groomed!</p>
+          <div class="care-grid" id="habitGrid">
+             <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <div class="care-section">
+          <div class="care-section-header"><span class="care-section-icon">🍽️</span><h3>Feeding Guide for ${d.name}s</h3></div>
+          <div class="care-grid">${d.feeding.map(f => `<div class="care-item"><strong>${f.t}</strong><span>${f.d}</span></div>`).join('')}</div>
+        </div>
+        <div class="care-section">
+          <div class="care-section-header"><span class="care-section-icon">✨</span><h3>Grooming & Hygiene</h3></div>
+          <div class="care-grid">${d.grooming.map(g => `<div class="care-item"><strong>${g.t}</strong><span>${g.d}</span></div>`).join('')}</div>
+        </div>
+        <div class="care-section">
+          <div class="care-section-header"><span class="care-section-icon">💉</span><h3>Health & Vaccines</h3></div>
+          <div class="health-checklist">${d.vaccines.map((v, i) => `
+            <div class="check-item">
+              <input type="checkbox" id="vax${i}"/>
+              <label for="vax${i}">${v}</label>
+            </div>`).join('')}
+          </div>
+        </div>
+        <div class="care-section">
+          <div class="care-section-header"><span class="care-section-icon">🔔</span><h3>Vet Reminders</h3></div>
+          <div class="reminder-form">
+            <div class="form-group"><label>Reminder</label><input type="text" id="remText" placeholder="e.g. Annual vaccine due"/></div>
+            <div class="form-group"><label>Date</label><input type="date" id="remDate"/></div>
+            <button class="add-btn" onclick="addReminder()">+ Add</button>
+          </div>
+          <div class="reminder-list" id="remList">${renderReminders()}</div>
+        </div>
+        <div class="care-section" style="border: 2px solid var(--blue);">
+          <div class="care-section-header">
+             <span class="care-section-icon">🩺</span>
+             <div>
+                 <h3 style="margin-bottom:0.2rem;">Health Logs & Weight Tracker</h3>
+                 <span style="font-size:0.8rem; color:var(--blue); font-weight:bold;">Powered by PawPedia DB</span>
+             </div>
+          </div>
+          <div class="reminder-form" style="grid-template-columns: 1fr 1fr 2fr auto;">
+            <div class="form-group"><label>Pet Name</label><input type="text" id="hlName" placeholder="Max"/></div>
+            <div class="form-group"><label>Weight (kg)</label><input type="number" step="0.1" id="hlWeight" placeholder="12.5"/></div>
+            <div class="form-group"><label>Notes / Vaccine</label><input type="text" id="hlNotes" placeholder="Annual checkup"/></div>
+            <button class="add-btn" onclick="addHealthLog()" style="background:var(--blue); color:#fff; border:none;">+ Log</button>
+          </div>
+          <div class="reminder-list" id="healthLogList">Loading logs...</div>
+        </div>`;
+            renderHabitUI();
+            fetchHealthLogs();
+        }
+
+        function renderHabitUI() {
+            if(!document.getElementById('habitGrid')) return;
+            const petHabits = ['Fed Food', 'Groomed', 'Played / Walked', 'Cleaned Space'];
+            
+            // Check if feeding was done today
+            let feedingDoneToday = false;
+            let groomingDoneRecent = false;
+            const todayStr = new Date().toDateString();
+
+            document.getElementById('habitGrid').innerHTML = petHabits.map(h => {
+                const habitData = (habits[currentPet] && habits[currentPet][h]) || { streak: 0, last: null };
+                const streak = habitData.streak || 0;
+                const lastLog = habitData.last;
+                const isLoggedToday = lastLog === todayStr;
+                
+                if(h === 'Fed Food' && isLoggedToday) feedingDoneToday = true;
+                if(h === 'Groomed' && lastLog) {
+                    const daysAgo = (new Date() - new Date(lastLog)) / (1000 * 60 * 60 * 24);
+                    if(daysAgo < 7) groomingDoneRecent = true;
+                }
+
+                const percent = Math.min((streak % 7 || (streak > 0 ? 7 : 0)) / 7 * 100, 100);
+                
+                return `<div class="care-item" style="display:flex; flex-direction:column; gap:0.5rem; ${isLoggedToday ? 'border-color: var(--green); background: var(--green-lt);' : ''}">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <strong>${h} ${isLoggedToday ? '<span style="color:var(--green)">✓ Done</span>' : ''}</strong>
+                            <span style="font-size: 0.8rem; color: var(--muted);">🔥 ${streak} Day Streak</span>
+                        </div>
+                        <button class="add-btn" onclick="logHabit('${h}')" style="${isLoggedToday ? 'background: var(--green); pointer-events:none; opacity: 0.7;' : ''}">${isLoggedToday ? 'Completed' : 'Log ✓'}</button>
+                    </div>
+                    <div style="height:6px; background:rgba(0,0,0,0.05); border-radius:3px; overflow:hidden; margin-top:0.4rem;">
+                        <div style="height:100%; width:${percent}%; background: ${isLoggedToday ? 'var(--green)' : 'var(--orange)'}; transition:width 0.4s ease;"></div>
+                    </div>
+                </div>`;
+            }).join('');
+            
+            // Render smart alerts
+            const alertBox = document.getElementById('dailyAlertBox');
+            const alertMsg = document.getElementById('dailyAlertMsg');
+            if(alertBox && alertMsg) {
+                if(!feedingDoneToday) {
+                    alertBox.style.display = 'block';
+                    alertMsg.textContent = `You haven't logged feeding for your ${petData[currentPet].name} today. Make sure they have fresh water and food!`;
+                } else if (!groomingDoneRecent) {
+                    alertBox.style.display = 'block';
+                    alertBox.style.background = 'var(--orange-lt)';
+                    alertBox.style.borderLeftColor = 'var(--orange)';
+                    alertBox.querySelector('strong').style.color = 'var(--orange)';
+                    alertMsg.textContent = `Your ${petData[currentPet].name} might need grooming this week.`;
+                } else {
+                    alertBox.style.display = 'none';
+                }
+            }
+        }
+
+        async function logHabit(habitName) {
+            if(!habits[currentPet]) habits[currentPet] = {};
+            
+            const habitData = habits[currentPet][habitName] || { streak: 0, last: null };
+            const todayStr = new Date().toDateString();
+            
+            if(habitData.last === todayStr) return; // Already logged today
+            
+            habitData.streak++;
+            habitData.last = todayStr;
+            habits[currentPet][habitName] = habitData;
+            
+            // Re-render UI immediately for responsiveness
+            renderHabitUI();
+            if (window.showToast) window.showToast(`${habitName} marked as completed!`, 'success');
+
+            try {
+                // Background sync
+                await fetch('http://localhost:3000/api/habits', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        pet: currentPet, 
+                        habit: habitName, 
+                        streak: habitData.streak, 
+                        last_logged: todayStr 
+                    })
+                });
+            } catch(e) { console.error('Error logging habit', e); }
+        }
+
+        function renderReminders() {
+            const list = reminders[currentPet] || [];
+            if (!list.length) return '<p style="font-size:.88rem;color:var(--muted);padding:.5rem 0">No reminders yet. Add one above!</p>';
+            return list.map(r => `<div class="reminder-item"><span>🔔 ${r.text} — <strong>${r.date}</strong></span><button class="del-btn" onclick="deleteReminder(${r.id})">✕</button></div>`).join('');
+        }
+
+        async function addReminder() {
+            const text = document.getElementById('remText').value.trim();
+            const date = document.getElementById('remDate').value;
+            if (!text || !date) {
+                if (window.showToast) window.showToast('Please enter both text and date.', 'error');
+                return;
+            }
+            try {
+                const res = await fetch('http://localhost:3000/api/reminders', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ pet: currentPet, text, date })
+                });
+                if (res.ok) {
+                    document.getElementById('remText').value = '';
+                    document.getElementById('remDate').value = '';
+                    if (window.showToast) window.showToast('Reminder added!', 'success');
+                    fetchReminders(currentPet);
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        async function deleteReminder(id) {
+            try {
+                const res = await fetch(`http://localhost:3000/api/reminders/${id}`, { method: 'DELETE' });
+                if (res.ok) {
+                    if (window.showToast) window.showToast('Reminder deleted.', 'info');
+                    fetchReminders(currentPet);
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        async function fetchHealthLogs() {
+            const listEl = document.getElementById('healthLogList');
+            if(!listEl) return;
+            
+            const userStr = localStorage.getItem('pawpedia_user');
+            if(!userStr) {
+                listEl.innerHTML = '<p style="color:var(--muted); font-size:0.9rem;">Please login to view and save health logs permanently.</p>';
+                return;
+            }
+            
+            const user = JSON.parse(userStr);
+            try {
+                const res = await fetch(`http://localhost:3000/api/health-logs/${user.id}`);
+                const logs = await res.json();
+                
+                // Filter logs to match current pet type (optional, but good UX)
+                const petLogs = logs.filter(l => l.pet_type === currentPet);
+                
+                if(!petLogs.length) {
+                    listEl.innerHTML = '<p style="color:var(--muted); font-size:0.9rem;">No health logs for this pet type yet.</p>';
+                    return;
+                }
+                
+                listEl.innerHTML = petLogs.map(l => `
+                    <div class="reminder-item" style="background:#fff; border-left: 4px solid var(--blue); padding:1rem;">
+                        <div style="flex:1;">
+                            <strong style="display:block; font-family:var(--font-display); font-size:1.1rem; margin-bottom:0.2rem;">${l.pet_name}</strong>
+                            <span style="font-size:0.85rem; color:var(--muted); display:block; margin-bottom:0.4rem;">${l.weight ? l.weight + ' kg • ' : ''}Logged on ${new Date().toLocaleDateString()}</span>
+                            <span style="font-size:0.9rem;">📝 ${l.notes || 'No extra notes'}</span>
+                        </div>
+                        <button class="del-btn" onclick="deleteHealthLog(${l.id})">✕</button>
+                    </div>
+                `).join('');
+                
+            } catch(e) {
+                listEl.innerHTML = '<p style="color:var(--coral);">Failed to load logs.</p>';
+            }
+        }
+        
+        async function addHealthLog() {
+            const userStr = localStorage.getItem('pawpedia_user');
+            if(!userStr) {
+                if(window.showToast) window.showToast("Please login first to save health logs.", "error");
+                return;
+            }
+            const user = JSON.parse(userStr);
+            
+            const name = document.getElementById('hlName').value.trim();
+            const weight = document.getElementById('hlWeight').value;
+            const notes = document.getElementById('hlNotes').value.trim();
+            
+            if(!name) {
+                if(window.showToast) window.showToast("Pet Name is required.", "error");
+                return;
+            }
+            
+            try {
+                const res = await fetch('http://localhost:3000/api/health-logs', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: user.id || 1,
+                        pet_name: name,
+                        pet_type: currentPet,
+                        weight: weight ? parseFloat(weight) : null,
+                        notes: notes
+                    })
+                });
+                if(res.ok) {
+                    document.getElementById('hlName').value = '';
+                    document.getElementById('hlWeight').value = '';
+                    document.getElementById('hlNotes').value = '';
+                    if(window.showToast) window.showToast("Health log saved to database!", "success");
+                    fetchHealthLogs();
+                }
+            } catch(e) {
+                console.error(e);
+            }
+        }
+        
+        async function deleteHealthLog(id) {
+            try {
+                const res = await fetch(`http://localhost:3000/api/health-logs/${id}`, { method: 'DELETE' });
+                if(res.ok) {
+                    fetchHealthLogs();
+                }
+            } catch(e) { console.error(e); }
+        }
+
+        renderCare();
+        fetchReminders(currentPet);
+        fetchHabits(currentPet);
+    </script>
+    <script src="main.js"></script>
+</body>
+
+</html>

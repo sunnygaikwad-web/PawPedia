@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adopt — PawPedia</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+        .page-hero {
+            background: linear-gradient(135deg, #7A1A1A, #D94F3B);
+            color: #fff;
+            padding: 8rem 4% 3rem
+        }
+
+        .page-hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            margin-bottom: .5rem
+        }
+
+        .page-hero p {
+            color: rgba(255, 255, 255, .7);
+            max-width: 500px
+        }
+
+        .adopt-layout {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 4%
+        }
+
+        .adopt-tabs {
+            display: flex;
+            gap: .5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap
+        }
+
+        .adopt-tab {
+            background: #fff;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            padding: .5rem 1.1rem;
+            font-family: var(--font-body);
+            font-size: .88rem;
+            cursor: pointer;
+            transition: all .2s;
+            color: var(--mid)
+        }
+
+        .adopt-tab.active,
+        .adopt-tab:hover {
+            background: var(--coral);
+            color: #fff;
+            border-color: var(--coral)
+        }
+
+        .pets-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 1.25rem
+        }
+
+        .pet-card {
+            background: #fff;
+            border-radius: 16px;
+            border: 1.5px solid var(--border);
+            overflow: hidden;
+            transition: all .25s;
+            cursor: pointer
+        }
+
+        .pet-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg)
+        }
+
+        .pet-badges {
+            display: flex;
+            gap: .4rem;
+            flex-wrap: wrap;
+            margin-bottom: .8rem
+        }
+
+        .pet-card-img {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+            border-bottom: 1.5px solid var(--border);
+        }
+        
+        .wishlist-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(4px);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+            z-index: 2;
+        }
+        
+        .wishlist-btn:hover {
+            transform: scale(1.1);
+            background: #fff;
+        }
+        
+        .wishlist-btn.saved {
+            color: var(--coral);
+        }
+
+        .badge {
+            font-size: .72rem;
+            padding: .2rem .6rem;
+            border-radius: 999px
+        }
+
+        .badge-green {
+            background: var(--green-lt);
+            color: var(--green)
+        }
+
+        .badge-orange {
+            background: var(--orange-lt);
+            color: var(--orange)
+        }
+
+        .badge-blue {
+            background: var(--blue-lt);
+            color: var(--blue)
+        }
+
+        .adopt-btn {
+            width: 100%;
+            background: var(--coral);
+            color: #fff;
+            border: none;
+            padding: .6rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-weight: 500;
+            transition: background .2s
+        }
+
+        .adopt-btn:hover {
+            background: #b83d2b
+        }
+
+        /* Quiz */
+        .quiz-section {
+            background: linear-gradient(135deg, var(--coral-lt), var(--orange-lt));
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center
+        }
+
+        .quiz-section h2 {
+            font-family: var(--font-display);
+            font-size: 1.6rem;
+            margin-bottom: .5rem
+        }
+
+        .quiz-section p {
+            color: var(--muted);
+            margin-bottom: 1.5rem
+        }
+
+        .match-quiz {
+            background: #fff;
+            border-radius: 14px;
+            padding: 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left
+        }
+
+        .mq-step {
+            display: none
+        }
+
+        .mq-step.active {
+            display: block
+        }
+
+        .mq-q {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--dark)
+        }
+
+        .mq-opts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: .6rem
+        }
+
+        .mq-opt {
+            background: var(--bg);
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            padding: .8rem;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: .88rem;
+            text-align: center;
+            transition: all .2s
+        }
+
+        .mq-opt:hover {
+            border-color: var(--coral);
+            background: var(--coral-lt)
+        }
+
+        .mq-progress {
+            display: flex;
+            gap: .3rem;
+            margin-bottom: 1.2rem
+        }
+
+        .mq-dot {
+            height: 4px;
+            flex: 1;
+            background: var(--border);
+            border-radius: 2px;
+            transition: background .3s
+        }
+
+        .mq-dot.done {
+            background: var(--coral)
+        }
+
+        .result-box {
+            text-align: center;
+            padding: 1rem 0
+        }
+
+        .result-emoji {
+            font-size: 4rem;
+            margin-bottom: .5rem
+        }
+
+        .result-box h3 {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            margin-bottom: .4rem
+        }
+
+        .result-box p {
+            color: var(--muted);
+            font-size: .9rem;
+            margin-bottom: 1rem
+        }
+
+        /* Lost & Found */
+        .lf-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1rem
+        }
+
+        .lf-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 1.2rem;
+            border: 1.5px solid var(--border)
+        }
+
+        .lf-emoji {
+            font-size: 2.5rem;
+            margin-bottom: .4rem
+        }
+
+        .lf-status {
+            font-size: .72rem;
+            font-weight: 500;
+            padding: .2rem .6rem;
+            border-radius: 999px;
+            display: inline-block;
+            margin-bottom: .5rem
+        }
+
+        .lf-lost {
+            background: var(--coral-lt);
+            color: var(--coral)
+        }
+
+        .lf-found {
+            background: var(--green-lt);
+            color: var(--green)
+        }
+
+        .lf-card h4 {
+            font-size: .92rem;
+            font-weight: 500;
+            margin-bottom: .2rem
+        }
+
+        .lf-card p {
+            font-size: .8rem;
+            color: var(--muted)
+        }
+
+        .lf-contact {
+            font-size: .8rem;
+            color: var(--blue);
+            margin-top: .5rem;
+            cursor: pointer
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="nav-logo"><a href="index.html" style="text-decoration:none;color:inherit">🐾 PawPedia</a></div>
+        <ul class="nav-links">
+            <li><a href="encyclopedia.html">Encyclopedia</a></li>
+            <li><a href="pet-care.html">Pet Care</a></li>
+            <li><a href="learn.html">Learn</a></li>
+            <li><a href="adopt.html" style="color:var(--coral)">Adopt</a></li>
+            <li><a href="community.html">Community</a></li>
+        </ul>
+        <button class="nav-cta" onclick="openAuthModal()">Login / Signup</button>
+        <button class="nav-hamburger" id="hamburger">&#9776;</button>
+    </nav>
+
+    <div class="page-hero">
+        <div class="section-label light">Adoption & Rescue</div>
+        <h1>Find Your Perfect Pet 🏠</h1>
+        <p>Thousands of animals need a loving home. Take the quiz to find your perfect match, or browse available pets
+            near you.</p>
+    </div>
+
+    <div class="adopt-layout">
+
+        <!-- Pet Match Quiz -->
+        <div class="quiz-section">
+            <h2>🎯 Which Pet is Right for You?</h2>
+            <p>Answer 4 quick questions and we'll find your perfect animal companion.</p>
+            <div class="match-quiz" id="matchQuiz"></div>
+        </div>
+
+        <!-- Available Pets -->
+        <div class="section-label" style="margin-bottom:.5rem">Available for Adoption</div>
+        <h2 class="section-title" style="margin-bottom:1.5rem">Pets Waiting for a Home</h2>
+        <div class="adopt-tabs">
+            <button class="adopt-tab active" onclick="filterPets(this,'all')">All Pets</button>
+            <button class="adopt-tab" onclick="filterPets(this,'dog')">🐕 Dogs</button>
+            <button class="adopt-tab" onclick="filterPets(this,'cat')">🐈 Cats</button>
+            <button class="adopt-tab" onclick="filterPets(this,'bird')">🦜 Birds</button>
+            <button class="adopt-tab" onclick="filterPets(this,'other')">🐾 Others</button>
+        </div>
+        <div class="pets-grid" id="petsGrid"></div>
+
+        <!-- Lost & Found -->
+        <div style="margin-top:3rem">
+            <div class="section-label" style="margin-bottom:.5rem">Lost & Found</div>
+            <h2 class="section-title" style="margin-bottom:1.5rem">Help Reunite Pets with Families</h2>
+            <div class="lf-grid" id="lfGrid"></div>
+            <button class="btn btn-outline" style="margin-top:1.5rem"
+                onclick="alert('Post a listing — coming soon! Use Community page for now.')">+ Post Lost/Found
+                Pet</button>
+        </div>
+    </div>
+
+    <script>
+        // Match Quiz
+        const quizSteps = [
+            { q: 'How much living space do you have?', opts: ['🏠 Large house with garden', '🏢 Apartment', '🏡 House, no garden', '🛖 Small flat'] },
+            { q: 'How active is your lifestyle?', opts: ['🏃 Very active — daily exercise', '🚶 Moderate — occasional walks', '🛋️ Mostly indoors', '👶 Busy with kids/work'] },
+            { q: 'How many hours are you home per day?', opts: ['🕐 Less than 4 hours', '🕓 4–8 hours', '🕗 8–12 hours', '🕛 Almost always home'] },
+            { q: 'Any previous pet experience?', opts: ['✅ Yes, experienced owner', '🐾 Had pets as a child', '🆕 First-time pet owner', '🤔 Not sure yet'] },
+        ];
+        const results = [
+            { emoji: '🐕', name: 'Dog', desc: 'You have space, time and an active lifestyle — perfect for a loyal, energetic dog!' },
+            { emoji: '🐈', name: 'Cat', desc: 'A cat suits your lifestyle perfectly — independent, loving, and great for busy people.' },
+            { emoji: '🐰', name: 'Rabbit', desc: 'A rabbit is gentle, quiet, and great for smaller spaces or families with children.' },
+            { emoji: '🦜', name: 'Bird', desc: 'A bird is social, entertaining, and fits well into your daily routine at home.' },
+        ];
+        let mqStep = 0;
+        let mqAnswers = [];
+
+        function renderQuiz() {
+            const q = quizSteps[mqStep];
+            document.getElementById('matchQuiz').innerHTML = `
+        <div class="mq-progress">${quizSteps.map((_, i) => `<div class="mq-dot ${i <= mqStep ? 'done' : ''}"></div>`).join('')}</div>
+        <p class="mq-q">${q.q}</p>
+        <div class="mq-opts">${q.opts.map((o, i) => `<button class="mq-opt" onclick="answerMQ(${i})">${o}</button>`).join('')}</div>
+        <p style="font-size:.78rem;color:var(--muted);margin-top:.8rem">Question ${mqStep + 1} of ${quizSteps.length}</p>`;
+        }
+
+        function answerMQ(i) {
+            mqAnswers.push(i);
+            if (mqStep < quizSteps.length - 1) { mqStep++; renderQuiz(); }
+            else showResult();
+        }
+
+        function showResult() {
+            const r = results[mqAnswers[0] % results.length];
+            document.getElementById('matchQuiz').innerHTML = `
+        <div class="result-box">
+          <div class="result-emoji">${r.emoji}</div>
+          <h3>Your Perfect Match: ${r.name}!</h3>
+          <p>${r.desc}</p>
+          <button class="btn btn-primary" onclick="mqStep=0;mqAnswers=[];renderQuiz()">Retake Quiz</button>
+          <button class="adopt-btn" style="margin-top:.6rem;display:block;width:100%" onclick="filterPets(document.querySelector('.adopt-tab'),'all')">Browse Available Pets →</button>
+        </div>`;
+        }
+
+        // Available Pets
+        const availablePets = [
+            { id: 1, image: 'images/adopt_dog.png', name: 'Bruno', breed: 'Golden Retriever', age: '2 years', gender: 'Male', city: 'Pune', traits: ['Friendly', 'Vaccinated', 'House-trained'], type: 'dog' },
+            { id: 2, image: 'images/adopt_cat.png', name: 'Luna', breed: 'Indian Shorthair', age: '1 year', gender: 'Female', city: 'Mumbai', traits: ['Calm', 'Spayed', 'Indoor'], type: 'cat' },
+            { id: 3, image: 'images/adopt_dog.png', name: 'Max', breed: 'Labrador Mix', age: '3 years', gender: 'Male', city: 'Delhi', traits: ['Active', 'Good with kids', 'Trained'], type: 'dog' },
+            { id: 4, image: 'images/adopt_cat.png', name: 'Mochi', breed: 'Persian Mix', age: '6 months', gender: 'Female', city: 'Bengaluru', traits: ['Playful', 'Vaccinated', 'Loves cuddles'], type: 'cat' },
+            { id: 5, image: 'images/bird_avatar.png', name: 'Kiwi', breed: 'Ringneck Parakeet', age: '8 months', gender: 'Male', city: 'Chennai', traits: ['Talks', 'Tame', 'Colourful'], type: 'bird' },
+            { id: 6, image: 'images/dog_avatar.png', name: 'Buddy', breed: 'Beagle Mix', age: '4 years', gender: 'Male', city: 'Pune', traits: ['Energetic', 'Vaccinated', 'Sociable'], type: 'dog' },
+        ];
+
+        let petFilter = 'all';
+
+        function filterPets(el, type) {
+            petFilter = type;
+            document.querySelectorAll('.adopt-tab').forEach(t => t.classList.remove('active'));
+            if(el) el.classList.add('active');
+            const list = type === 'all' ? availablePets : availablePets.filter(p => p.type === type);
+            
+            // Check wishlist
+            const savedStr = localStorage.getItem('pawpedia_wishlist');
+            const savedList = savedStr ? JSON.parse(savedStr) : [];
+            
+            document.getElementById('petsGrid').innerHTML = list.map(p => `
+        <div class="pet-card" style="position:relative;">
+          <button class="wishlist-btn ${savedList.includes(p.id) ? 'saved' : ''}" onclick="event.stopPropagation(); toggleWishlist(${p.id}, this)">
+             ${savedList.includes(p.id) ? '❤️' : '🤍'}
+          </button>
+          <img src="${p.image}" class="pet-card-img" alt="${p.name}">
+          <div class="pet-card-body" onclick="openPetDetails(${p.id})">
+            <h3 style="font-family: var(--font-display); font-size: 1.1rem; margin-bottom: .2rem">${p.name}</h3>
+            <div class="pet-card-meta" style="font-size: .8rem; color: var(--muted); margin-bottom: .8rem">${p.breed} · ${p.age} · ${p.gender} · 📍 ${p.city}</div>
+            <div class="pet-badges">${p.traits.slice(0,2).map(t => `<span class="badge badge-green">${t}</span>`).join('')}</div>
+            <button class="adopt-btn">View Details →</button>
+          </div>
+        </div>`).join('');
+        }
+        
+        function toggleWishlist(petId, btnEl) {
+            if(!localStorage.getItem('pawpedia_user')) {
+                openAuthModal();
+                return;
+            }
+            const savedStr = localStorage.getItem('pawpedia_wishlist');
+            let savedList = savedStr ? JSON.parse(savedStr) : [];
+            
+            if(savedList.includes(petId)) {
+                savedList = savedList.filter(id => id !== petId);
+                btnEl.classList.remove('saved');
+                btnEl.textContent = '🤍';
+                if(window.showToast) window.showToast('Removed from saved pets', 'info');
+            } else {
+                savedList.push(petId);
+                btnEl.classList.add('saved');
+                btnEl.textContent = '❤️';
+                if(window.showToast) window.showToast('Saved to your dashboard!', 'success');
+            }
+            localStorage.setItem('pawpedia_wishlist', JSON.stringify(savedList));
+        }
+
+        function openPetDetails(id) {
+            const p = availablePets.find(pet => pet.id === id);
+            if(!p) return;
+            
+            document.getElementById('detailPetImg').src = p.image;
+            document.getElementById('detailPetName').textContent = p.name;
+            document.getElementById('detailPetMeta').textContent = `${p.breed} · ${p.age} · ${p.gender} · 📍 ${p.city}`;
+            document.getElementById('detailPetTraits').innerHTML = p.traits.map(t => `<span class="badge badge-green">${t}</span>`).join('');
+            
+            // Re-bind adopt button
+            document.getElementById('detailAdoptBtn').onclick = () => {
+                closeModal('petDetailsModal');
+                openAdoptModal(p.name);
+            };
+            
+            openModal('petDetailsModal');
+        }
+
+        function openAdoptModal(petName) {
+            document.getElementById('adoptPetName').textContent = petName;
+            document.getElementById('adoptFormContainer').style.display = 'block';
+            document.getElementById('adoptSuccessMsg').style.display = 'none';
+            openModal('adoptModal');
+        }
+
+        async function submitAdoptForm(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            btn.textContent = 'Sending...';
+            btn.disabled = true;
+
+            const name = document.getElementById('adoptName').value.trim();
+            const email = document.getElementById('adoptEmail').value.trim();
+            const petName = document.getElementById('adoptPetName').textContent;
+
+            try {
+                const res = await fetch('http://localhost:3000/api/adopt', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, petName })
+                });
+                const data = await res.json();
+                
+                document.getElementById('adoptFormContainer').style.display = 'none';
+                document.getElementById('adoptSuccessMsg').style.display = 'block';
+                
+                if(data.previewURL) {
+                    document.getElementById('adoptEmailLink').href = data.previewURL;
+                    document.getElementById('adoptEmailLink').style.display = 'inline-block';
+                }
+                
+                if (window.showToast) window.showToast('Adoption request submitted successfully!', 'success');
+            } catch (err) {
+                console.error(err);
+                if (window.showToast) window.showToast('Failed to connect to backend.', 'error');
+            } finally {
+                btn.textContent = 'Submit Request';
+                btn.disabled = false;
+            }
+        }
+
+        // Lost & Found
+        const lfItems = [
+            { emoji: '🐕', status: 'lost', name: 'Golden Retriever', desc: 'Lost near Koregaon Park, Pune. Answers to "Rocky". Orange collar.', contact: 'Call: 98765-43210' },
+            { emoji: '🐈', status: 'found', name: 'Black & White Cat', desc: 'Found in Andheri West, Mumbai. Female, friendly, no collar.', contact: 'Call: 91234-56789' },
+            { emoji: '🐦', status: 'lost', name: 'Green Ringneck Parrot', desc: 'Lost from Indiranagar, Bengaluru. Speaks Hindi and English!', contact: 'Call: 87654-32109' },
+            { emoji: '🐕', status: 'found', name: 'Brown Indie Dog', desc: 'Found in Sector 15, Noida. Male, friendly, microchip found.', contact: 'Call: 76543-21098' },
+        ];
+
+        document.getElementById('lfGrid').innerHTML = lfItems.map(l => `
+      <div class="lf-card">
+        <div class="lf-emoji">${l.emoji}</div>
+        <span class="lf-status lf-${l.status}">${l.status === 'lost' ? '🔴 LOST' : '🟢 FOUND'}</span>
+        <h4>${l.name}</h4>
+        <p>${l.desc}</p>
+        <div class="lf-contact">${l.contact}</div>
+      </div>`).join('');
+
+        // Init
+        renderQuiz();
+        filterPets(document.querySelector('.adopt-tab'), 'all');
+    </script>
+    
+    <!-- Adopt Modal -->
+    <div class="g-modal" id="adoptModal">
+        <div class="g-modal-content">
+            <button class="g-modal-close" onclick="closeModal('adoptModal')">&times;</button>
+            <div id="adoptFormContainer">
+                <h2 style="font-family: var(--font-display); font-size: 1.6rem; margin-bottom: 0.5rem; color: var(--dark);">Adopt <span id="adoptPetName" style="color: var(--coral)"></span></h2>
+                <p style="color: var(--muted); margin-bottom: 1.5rem; font-size: 0.9rem;">Please provide your details below. A shelter representative will contact you shortly.</p>
+                <form onsubmit="submitAdoptForm(event)" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div>
+                        <label style="display:block; font-size: 0.8rem; font-weight: 500; color: var(--muted); margin-bottom:0.2rem;">Full Name</label>
+                        <input type="text" id="adoptName" required style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1.5px solid var(--border); background: var(--bg); font-family: var(--font-body);" placeholder="Enter your full name">
+                    </div>
+                    <div>
+                        <label style="display:block; font-size: 0.8rem; font-weight: 500; color: var(--muted); margin-bottom:0.2rem;">Email</label>
+                        <input type="email" id="adoptEmail" required style="width: 100%; padding: 0.8rem; border-radius: 8px; border: 1.5px solid var(--border); background: var(--bg); font-family: var(--font-body);" placeholder="Enter your email">
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="margin-top: 0.5rem; background: var(--coral);">Submit Request</button>
+                </form>
+            </div>
+            <div id="adoptSuccessMsg" style="display:none; text-align:center; padding: 2rem 0;">
+                <div style="font-size: 4rem; margin-bottom: 1rem;">🎉</div>
+                <h3 style="font-family: var(--font-display); font-size: 1.4rem; color: var(--green);">Request Sent!</h3>
+                <p style="color: var(--muted); font-size: 0.95rem; margin-bottom: 1rem;">Check your email for the next steps.</p>
+                <a id="adoptEmailLink" href="#" target="_blank" style="display:none; color: var(--coral); font-weight: 500; text-decoration: underline; font-size: 0.9rem;">👀 View Simulated Email</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pet Details Modal -->
+    <div class="g-modal" id="petDetailsModal">
+        <div class="g-modal-content" style="max-width: 600px; padding: 0; overflow: hidden;">
+            <button class="g-modal-close" style="color:#fff; background:rgba(0,0,0,0.3); border-radius:50%; width:30px; height:30px; display:flex; align-items:center; justify-content:center; top:15px; right:15px;" onclick="closeModal('petDetailsModal')">&times;</button>
+            <img id="detailPetImg" src="" style="width: 100%; height: 280px; object-fit: cover; display: block;">
+            <div style="padding: 2rem;">
+                <h2 id="detailPetName" style="font-family: var(--font-display); font-size: 2rem; color: var(--dark); margin-bottom: 0.3rem;">Name</h2>
+                <div id="detailPetMeta" style="color: var(--muted); font-size: 0.95rem; margin-bottom: 1.2rem;">Breed</div>
+                
+                <h4 style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--dark);">Traits</h4>
+                <div id="detailPetTraits" style="display:flex; gap:0.5rem; flex-wrap:wrap; margin-bottom: 1.5rem;"></div>
+                
+                <h4 style="font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--dark);">About Me</h4>
+                <p style="font-size: 0.9rem; color: var(--mid); line-height: 1.6; margin-bottom: 2rem;">I am a very loving and friendly companion looking for my forever home. I am fully vaccinated and ready to become a part of your family. Come meet me!</p>
+                
+                <button id="detailAdoptBtn" class="adopt-btn" style="font-size: 1.05rem; padding: 0.8rem;">Ready to Adopt? Apply Now →</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="main.js"></script>
+</body>
+
+</html>
